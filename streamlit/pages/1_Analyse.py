@@ -18,7 +18,6 @@ df = pd.read_csv(BASE_DIR.parent / "data" / "loan_data.csv")
 st.set_page_config(page_title="Analyse", layout="wide")
 st.title("Analyse du portefeuille de prêts")
 
-df = pd.read_csv("../data/loan_data.csv")
 df = df.rename(columns={
     'Gender': 'Genre', 'Married': 'Marier', 'Dependents': 'Personnes_a_charge',
     'Education': 'Niveau_etude', 'Self_Employed': 'Independant',
