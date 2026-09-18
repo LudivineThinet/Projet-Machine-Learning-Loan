@@ -1,15 +1,23 @@
 import streamlit as st
 
-st.set_page_config(page_title="CrediTrust - Scoring de crédit", layout="wide")
+st.set_page_config(page_title="CrediTrust", page_icon="🏦")
+
 
 st.title("CrediTrust Finance - Dashboard de scoring de crédit")
 
 st.markdown("""
-Ce dashboard permet d'explorer les données de demandes de prêt et de tester
-l'éligibilité d'un client via un modèle de Machine Learning entraîné sur
-l'historique des décisions passées.
+### Contexte
 
-Utilise le menu à gauche pour naviguer :
-- **Analyse** : vue d'ensemble du portefeuille, facteurs de risque, performance du modèle.
-- **Simulateur** : teste une demande de prêt en direct.
+Ce projet a été réalisé pour **CrediTrust Finance**, accompagné par **NexaData Consulting**,
+dans le cadre d'un brief Machine Learning.
+
+L'objectif : s'appuyer sur l'historique des décisions de prêt déjà prises pour aider à évaluer
+le risque associé à une nouvelle demande, avec une attention particulière portée à la réduction
+des faux négatifs (accorder un prêt à quelqu'un qui aurait dû être refusé).
+
+### Navigation
+
+Utilise le menu à gauche :
+- **Analyse** : vue d'ensemble du portefeuille de prêts, facteurs de risque.
+- **Simulateur** : teste une demande de prêt en direct avec le modèle entraîné.
 """)
