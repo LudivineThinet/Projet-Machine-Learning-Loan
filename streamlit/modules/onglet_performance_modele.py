@@ -2,12 +2,15 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import joblib
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 def afficher():
     st.subheader("Performance et interprétation du modèle")
 
-    modele = joblib.load("model/modele_arbre.pkl")
-    colonnes_features = joblib.load("model/colonnes_features.pkl")
+    modele = joblib.load(BASE_DIR / "model" / "modele_arbre.pkl")
+    colonnes_features = joblib.load(BASE_DIR / "model" / "colonnes_features.pkl")
 
     importances = modele.feature_importances_
 

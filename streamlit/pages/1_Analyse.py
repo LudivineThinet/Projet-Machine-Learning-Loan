@@ -10,6 +10,11 @@ from modules import (
     onglet_performance_modele,
 )
 
+from pathlib import Path
+BASE_DIR = Path(__file__).resolve().parent.parent  # remonte de pages/ vers streamlit/
+
+df = pd.read_csv(BASE_DIR.parent / "data" / "loan_data.csv")
+
 st.set_page_config(page_title="Analyse", layout="wide")
 st.title("Analyse du portefeuille de prêts")
 

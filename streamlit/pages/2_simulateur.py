@@ -2,17 +2,19 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import joblib
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 st.set_page_config(page_title="Simulateur", layout="wide")
 st.title("Simulateur de demande de prêt")
 
-# Chargement du modèle et des objets de prétraitement sauvegardés depuis le notebook
-modele = joblib.load("model/modele_arbre.pkl")
-imputer_mode = joblib.load("model/imputer_mode.pkl")
-imputer_mediane = joblib.load("model/imputer_mediane.pkl")
-scaler = joblib.load("model/scaler_duree.pkl")
-mappings = joblib.load("model/mappings_encodage.pkl")
-colonnes_features = joblib.load("model/colonnes_features.pkl")
+modele = joblib.load(BASE_DIR / "model" / "modele_arbre.pkl")
+imputer_mode = joblib.load(BASE_DIR / "model" / "imputer_mode.pkl")
+imputer_mediane = joblib.load(BASE_DIR / "model" / "imputer_mediane.pkl")
+scaler = joblib.load(BASE_DIR / "model" / "scaler_duree.pkl")
+mappings = joblib.load(BASE_DIR / "model" / "mappings_encodage.pkl")
+colonnes_features = joblib.load(BASE_DIR / "model" / "colonnes_features.pkl")
 
 st.markdown("Remplis les informations du client pour tester l'éligibilité au prêt.")
 
@@ -37,7 +39,6 @@ with st.form("formulaire_simulateur"):
     valider = st.form_submit_button("Simuler la demande")
 
 if valider:
-    # Reconstruction d'une ligne avec les mêmes transformations que dans le notebook
     ligne = {
         'Genre_encoded': mappings['Genre'][genre],
         'Marier_encoded': mappings['Marier'][marier],
