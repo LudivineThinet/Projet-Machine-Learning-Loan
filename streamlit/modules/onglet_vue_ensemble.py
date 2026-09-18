@@ -1,21 +1,34 @@
 import streamlit as st
-import pandas as pd
 
-def afficher(df):
-    col1, col2, col3, col4 = st.columns(4)
+def formater_nombre(valeur):
+    """Affiche un grand nombre en K ou M pour rester lisible."""
+    if valeur >= 1_000_000:
+        return f"{valeur / 1_000_000:.1f}M"
+    elif valeur >= 1_000:
+        return f"{valeur / 1_000:.1f}K"
+    else:
+        return f"{valeur:,.0f}"
 
-    nb_demandes = len(df)
-    nb_accordes = (df['Statut_pret'] == 'Y').sum()
-    nb_refuses = (df['Statut_pret'] == 'N').sum()
-    taux_accord = nb_accordes / nb_demandes * 100
+def afficher(df, df_avec_cible):
+    st.markdown("### Vue d'ensemble")
 
-    col1.metric("Demandes traitées", nb_demandes)
-    col2.metric("Prêts accordés", nb_accordes)
-    col3.metric("Prêts refusés", nb_refuses)
-    col4.metric("Taux d'acceptation", f"{taux_accord:.1f}%")
+    total_lignes = len(df)
+    lignes_gardees = len(df_avec_cible)
+    prets_acceptes = (df_avec_cible['Statut_pret'] == 'Y').sum()
+    taux_acceptation = prets_acceptes / lignes_gardees * 100
+    montant_moyen = df_avec_cible['Montant_pret'].mean()
+    revenu_moyen = df_avec_cible['Revenu_demandeur'].mean()
+    duree_moyenne = df_avec_cible['Duree_pret'].mean()
 
-    col5, col6, col7, col8 = st.columns(4)
-    col5.metric("Montant moyen demandé", f"{df['Montant_pret'].mean():,.0f}")
-    col6.metric("Montant total demandé", f"{df['Montant_pret'].sum():,.0f}")
-    col7.metric("Revenu moyen", f"{df['Revenu_demandeur'].mean():,.0f}")
-    col8.metric("Durée moyenne (mois)", f"{df['Duree_pret'].mean():.0f}")
+    col1, col2, col3 = st.columns(3)
+    col1.metric("Total de lignes (dataset complet)", total_lignes)
+    col2.metric("Lignes gardées (statut connu)", lignes_gardees)
+    col3.metric("Prêts acceptés", int(prets_acceptes))
+
+    col4, col5, col6 = st.columns(3)
+    col4.metric("Taux d'acceptation", f"{taux_acceptation:.1f}%")
+    col5.metric("Montant moyen demandé", formater_nombre(montant_moyen))
+    col6.metric("Revenu moyen du demandeur", formater_nombre(revenu_moyen))
+
+    col7, _, _ = st.columns(3)
+    col7.metric("Durée moyenne des prêts (mois)", f"{duree_moyenne:.0f}")
